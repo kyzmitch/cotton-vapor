@@ -18,6 +18,7 @@ private extension TabsController {
     // MARK: - fetch all
     
     func handleFetchAll(_ req: Request) async throws -> [Tab] {
+        
         return []
     }
 }

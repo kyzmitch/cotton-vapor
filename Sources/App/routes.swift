@@ -17,9 +17,11 @@ func routes(_ app: Application) throws {
         "All tabs for specific user"
     }.description(.fetchAllTabs)
     tabs.post { req in
-        /// Post response should perhaps contain some unique identifier of tab object
-        /// record from database
-        "Tab was added"
+        let content = try req.content.decode(Tab.Content.self)
+        let id = UUID()
+        let newTab = Tab(id: id, content: content)
+        /// TODO: record in DB
+        return id.uuidString
     }.description(.createTab)
     tabs.delete(":tab_id") { req in
         /// For delete response it would be better to use Void or (), but
