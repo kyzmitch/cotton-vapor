@@ -4,24 +4,17 @@ func routes(_ app: Application) throws {
     try app.register(collection: TabsController())
     
     let tabs = app.grouped("tabs")
-    tabs.get { req async -> String in
-        /// Response perhaps should be an ordered array with tab objects
-        /// maybe sorting is better to be done on client side to not waste backend computing resources
-        "All tabs for specific user"
-    }.description(.fetchAllTabs)
-    tabs.post { req in
-        let content = try req.content.decode(api.Tab.Content.self)
-        let id = UUID()
-        _ = api.Tab(id: id, content: content)
-        /// TODO: record in DB
-        return id.uuidString
-    }.description(.createTab)
-    tabs.delete(":tab_id") { req in
-        guard let tabId = req.parameters.get("tab_id") else {
-            throw Abort(.badRequest)
+    tabs.get { req async throws in
+        /// If we assume that one single db table is used for all users
+        /// then we have to query tab records only for that specific user id
+        let dbTabs = try await db.Tab.query(on: req.db).all()
+        let tabs = dbTabs.compactMap { $0.pubValue }
+        guard tabs.count == dbTabs.count else {
+            throw Abort(.internalServerError)
         }
-        return tabId
-    }.description(.deleteTab)
+        return try await tabs.encodeResponse(for: req)
+    }.description(.fetchAllTabs)
+
     tabs.put("changelog") { req in
         /// Possibly would be not a bad idea
         /// to do tabs batch sync and not many single rest requests.

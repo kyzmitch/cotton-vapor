@@ -35,5 +35,12 @@ extension db {
             id = value.id
             content = value.content
         }
+        
+        var pubValue: api.Tab? {
+            guard let identifier = id else {
+                return nil
+            }
+            return api.Tab(id: identifier, content: content)
+        }
     }
 }
