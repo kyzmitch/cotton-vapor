@@ -17,7 +17,7 @@ struct TabsController: RouteCollection {
 private extension TabsController {
     // MARK: - fetch all
     
-    func handleFetchAll(_ req: Request) async throws -> [Tab] {
+    func handleFetchAll(_ req: Request) async throws -> [api.Tab] {
         
         return []
     }

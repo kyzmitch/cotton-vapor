@@ -6,15 +6,34 @@
 //
 
 import Vapor
+import Fluent
 
-struct Tab: Identifiable, Content {
-    /// Tab's site content data.
-    /// Always https, so, not storing scheme type
-    struct Content: Codable {
-        let host: String
-        let path: String
+extension api {
+    struct Tab: Content {
+        let id: UUID
+        struct Content: Vapor.Content {
+            let host: String
+            let path: String
+        }
+        let content: Content
     }
-    
-    let id: UUID
-    let content: Content
+}
+
+extension db {
+    final class Tab: Model {
+        init() {}
+        
+        typealias IDValue = UUID
+        static let schema: String = "tabs"
+        
+        @ID
+        var id: UUID?
+        @Field(key: "content")
+        var content: api.Tab.Content
+        
+        init(_ value: api.Tab) {
+            id = value.id
+            content = value.content
+        }
+    }
 }

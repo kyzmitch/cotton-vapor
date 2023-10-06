@@ -8,6 +8,7 @@ public func configure(_ app: Application) async throws {
     let dbAccount = Environment.get("DATABASE_USERNAME") ?? "vapor_username"
     let dbConfig = SQLPostgresConfiguration(hostname: dbHostname, username: dbAccount, tls: .disable)
     app.databases.use(.postgres(configuration: dbConfig, sqlLogLevel: .debug), as: .psql)
+    app.logger.logLevel = .debug
     // register routes
     try routes(app)
 }
