@@ -24,7 +24,5 @@ func routes(_ app: Application) throws {
 
 private extension String {
     static let fetchAllTabs = "Fetch all tabs"
-    static let createTab = "Add one tab"
-    static let deleteTab = "Delete single tab"
     static let updateTabsChangelog = "Update tabs state - add,update or remove"
 }
