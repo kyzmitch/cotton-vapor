@@ -9,6 +9,7 @@ public func configure(_ app: Application) async throws {
     let dbConfig = SQLPostgresConfiguration(hostname: dbHostname, username: dbAccount, tls: .disable)
     app.databases.use(.postgres(configuration: dbConfig, sqlLogLevel: .debug), as: .psql)
     app.logger.logLevel = .debug
-    // register routes
+    app.http.server.configuration.supportVersions = [.one]
+    app.http.server.configuration.tlsConfiguration?.minimumTLSVersion = .tlsv13
     try routes(app)
 }
