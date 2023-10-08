@@ -36,7 +36,7 @@ private extension TabsController {
     func handleCreateTab(_ req: Request) async throws -> String {
         let content = try req.content.decode(api.Tab.Content.self)
         let tabId = UUID()
-        let tab = api.Tab(id: tabId, content: content)
+        let tab = api.Tab(tabId, content)
         let dbTab = db.Tab(tab)
         try await dbTab.create(on: req.db)
         return tabId.uuidString
