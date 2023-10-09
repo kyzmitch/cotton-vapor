@@ -13,14 +13,24 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0")
     ],
     targets: [
+// MARK: backend app
         .executableTarget(
             name: "App",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Vapor", package: "vapor"),
+            ],
+            resources: [
+                .copy("Resources/Certs")
             ]
         ),
+// MARK: plugins
+        .plugin(name: "CopySSLCerts",
+                capability: .command(intent: .custom(verb: "copy-ssl-certificates", description: "Copy SSL certificates resource to allow app executable find them"), permissions: [])),
+        .plugin(name: "SwiftLintStep",
+                capability: .command(intent: .sourceCodeFormatting(), permissions: [.writeToPackageDirectory(reason: "Linter formatting")])),
+// MARK: app unit tests
         .testTarget(name: "AppTests", dependencies: [
             .target(name: "App"),
             .product(name: "XCTVapor", package: "vapor"),
