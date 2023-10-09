@@ -18,3 +18,8 @@ There are two options:
 TBD, not fully working steps:
 1) `postgres`
 2) `psql --dbname=cotton --host=localhost --port=5432 --no-password`
+
+### Support HTTPS/TLS
+- `brew install mkcert` install a little more easy to use tool instead of OpenSSL
+- `mkcert -install`to create local certificate authority to mark cert as green in browser
+- `mkcert localhost 127.0.0.1` create a new certificate for specific hostnames/domains

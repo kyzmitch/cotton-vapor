@@ -3,8 +3,8 @@ import Fluent
 import FluentPostgresDriver
 
 public func configure(_ app: Application) async throws {
-    let dbHostname = Environment.get("DATABASE_HOST") ?? "localhost"
-    let dbAccount = Environment.get("DATABASE_USERNAME") ?? "aermoshin"
+    let dbHostname = Environment.get("DB_HOSTNAME") ?? "localhost"
+    let dbAccount = Environment.get("DB_USERNAME") ?? "postgres"
     let dbConfig = SQLPostgresConfiguration(hostname: dbHostname, username: dbAccount, tls: .disable)
     app.databases.use(.postgres(configuration: dbConfig, sqlLogLevel: .debug), as: .psql)
     
@@ -20,17 +20,17 @@ public func configure(_ app: Application) async throws {
     
     app.logger.logLevel = .debug
     app.http.server.configuration.supportVersions = [.one]
-    app.http.server.configuration.hostname = Environment.get("COTTON_HOSTNAME") ?? "127.0.0.1"
-    /// Can't set other port number because need to have some permissions
-    app.http.server.configuration.port = 8080
+    app.http.server.configuration.hostname = Environment.get("COTTON_HOSTNAME") ?? "localhost"
     
-    /**
-     TODO:  HTTPS
-     app.http.server.configuration.tlsConfiguration?.minimumTLSVersion = .tlsv13
-     app.http.server.configuration.port = 443
-     let privateKey: NIOSSLPrivateKeySource = .file("cotton_private_key")
-     try app.http.server.configuration.tlsConfiguration = .makeServerConfiguration(certificateChain: [], privateKey: privateKey)
-     */
+    /// Config HTTPS
+    app.http.server.configuration.port = 443
+    let privateKey: NIOSSLPrivateKeySource = .file("localhost+1-key.pem")
+    let sslPemCertChain = try NIOSSLCertificate.fromPEMFile("localhost+1.pem")
+    let certSources: [NIOSSLCertificateSource] = sslPemCertChain.map { .certificate($0) }
+    var tlsConfig: TLSConfiguration = .makeServerConfiguration(certificateChain: certSources,
+                                                               privateKey: privateKey)
+    tlsConfig.minimumTLSVersion = .tlsv13
+    app.http.server.configuration.tlsConfiguration = tlsConfig
     
     try routes(app)
 }
