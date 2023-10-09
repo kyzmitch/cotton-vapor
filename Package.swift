@@ -23,6 +23,9 @@ let package = Package(
             ],
             resources: [
                 .copy("Resources/Certs")
+            ],
+            swiftSettings: [
+                .define("DEBUG", .when(configuration: .debug))
             ]
         ),
 // MARK: plugins

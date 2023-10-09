@@ -23,3 +23,9 @@ TBD, not fully working steps:
 - `brew install mkcert` install a little more easy to use tool instead of OpenSSL
 - `mkcert -install`to create local certificate authority to mark cert as green in browser
 - `mkcert localhost 127.0.0.1` create a new certificate for specific hostnames/domains
+- copy generated certificate files to `./Resources/Certs`
+
+How to build
+-----------------
+Xcode is not available on Linux, so that, have to build from command line. Also, it is not trivial to set custom build directory in Xcode, e.g. to be able to copy some resources to the same folder with app executable.
+- `swift package --build-path ./Build/Debug build`
