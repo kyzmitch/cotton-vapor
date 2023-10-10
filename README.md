@@ -1,5 +1,8 @@
 # Cotton backend app
-Cotton CRUD backend in Swift using Vapor
+Cotton CRUD backend in Swift using Vapor. Main goals are:
+- ability to sync web browser tabs between multiple iOS/Android clients
+- show friends top sites
+- privacy related features (e.g. VPN, DNS over HTTPS, etc.)
 
 How to install
 -----------------

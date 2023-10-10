@@ -22,7 +22,8 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
             ],
             resources: [
-                .copy("Resources/Certs")
+                .copy("Resources/Certs/localhost+1-key.pem"),
+                .copy("Resources/Certs/localhost+1.pem")
             ],
             swiftSettings: [
                 .define("DEBUG", .when(configuration: .debug))
