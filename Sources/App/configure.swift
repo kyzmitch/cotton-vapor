@@ -9,7 +9,7 @@ class SslCertsReader {
 #if NIO_CERT_READ
         return try NIOSSLCertificate.fromPEMFile("localhost+1.pem")
 #else
-        let bundle = Bundle(for: self)
+        let bundle = Bundle.main
         guard let path = bundle.path(forResource: "localhost+1", ofType: "pem") else {
             throw Abort(.custom(code: 512, reasonPhrase: "SSL certificates resource not found"))
         }

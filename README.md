@@ -31,4 +31,5 @@ TBD, not fully working steps:
 How to build
 -----------------
 Xcode is not available on Linux, so that, have to build from command line. Also, it is not trivial to set custom build directory in Xcode, e.g. to be able to copy some resources to the same folder with app executable.
-- `swift package --build-path ./Build/Debug build`
+- Debug build: `swift build --build-path ./Build/Debug`
+- Release build: `swift build --build-path ./Build/Release --configuration release`

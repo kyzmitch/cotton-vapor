@@ -8,7 +8,7 @@ let package = Package(
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.83.1"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.84.2"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0")
     ],
@@ -22,8 +22,8 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
             ],
             resources: [
-                .copy("Resources/Certs/localhost+1-key.pem"),
-                .copy("Resources/Certs/localhost+1.pem")
+                .process("localhost+1-key.pem"),
+                .process("localhost+1.pem")
             ],
             swiftSettings: [
                 .define("DEBUG", .when(configuration: .debug))

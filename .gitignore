@@ -9,3 +9,6 @@ db.sqlite
 .env
 Resources/Certs
 Build
+Sources/App/Resources/Certs
+Sources/App/localhost+1-key.pem
+Sources/App/localhost+1.pem
