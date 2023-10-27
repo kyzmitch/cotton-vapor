@@ -11,7 +11,7 @@ struct TabsController: RouteCollection {
     func boot(routes: Vapor.RoutesBuilder) throws {
         let tabs = routes.grouped("tabs")
         tabs.get(use: handleFetchAll)
-        tabs.post(":id", use: handleCreateTab)
+        tabs.post(use: handleCreateTab)
         tabs.delete(":id", use: handleTabDelete)
         tabs.put("changelog", use: handleTabsChangelog)
     }
